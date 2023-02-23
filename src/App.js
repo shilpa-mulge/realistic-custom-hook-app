@@ -6,18 +6,17 @@ import NewTask from './components/NewTask/NewTask';
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const trandferdTask = useCallback((taskData) => {
-    const loadedTasks = [];
-    for (const taskKey in taskData) {
-      loadedTasks.push({ id: taskKey, text: taskData[taskKey].text });
-    }
-    setTasks(loadedTasks);
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp()
 
-  }, [])
-
-  const { isLoading, error, sendRequest: fetchTasks } = useHttp(trandferdTask)
   useEffect(() => {
-    fetchTasks({ url: 'https://react-app-cd331-default-rtdb.firebaseio.com/tasks.json' });
+    const trandferdTask = (taskData) => {
+      const loadedTasks = [];
+      for (const taskKey in taskData) {
+        loadedTasks.push({ id: taskKey, text: taskData[taskKey].text });
+      }
+      setTasks(loadedTasks);
+    }
+    fetchTasks({ url: 'https://react-app-cd331-default-rtdb.firebaseio.com/tasks.json' }, trandferdTask);
   }, [fetchTasks]);
 
   const taskAddHandler = (task) => {
