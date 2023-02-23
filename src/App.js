@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useHttp from './hooks/use-fetch';
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
